@@ -42,10 +42,57 @@ void createQuiz() {
     cout << "Quiz created!\n";
 }
 
+void displayQuizzes() {
+    cout << "Available quizzes:\n";
+    for (int i = 0; i < quizCount; ++i) {
+        cout << (i + 1) << ". " << quizzes[i].title << endl;
+    }
+}
 
+void takeQuiz() {
+    displayQuizzes();
+    cout << "Select a quiz: ";
+    int choice;
+    cin >> choice;
 
+    if (choice < 1 || choice > quizCount) {
+        cout << "Invalid selection.\n";
+        return;
+    }
 
+    Quiz selectedQuiz = quizzes[choice - 1];
+    int correctCount = 0;
+
+    for (int i = 0; i < selectedQuiz.questionCount; ++i) {
+        cout << "Question: " << selectedQuiz.questions[i] << endl;
+        for (int j = 0; j < MAX_OPTIONS; ++j) {
+            cout << (j + 1) << ". " << selectedQuiz.options[i][j] << endl;
+        }
+
+        int answer;
+        cout << "Your answer (1-4): ";
+        cin >> answer;
+
+        if (answer == selectedQuiz.answers[i]) {
+            correctCount++;
+        }
+    }
+
+    cout << "You got " << correctCount << " out of " << selectedQuiz.questionCount << " correct.\n";
+}
 
 int main() {
-    
+    while (true) {
+        cout << "1. Create Quiz\n2. Take Quiz\n3. Exit\n";
+        int option;
+        cin >> option;
+
+        switch (option) {
+        case 1: createQuiz(); break;
+        case 2: takeQuiz(); break;
+        case 3: return 0;
+        default: cout << "Invalid option.\n"; break;
+        }
+    }
+
 }
